@@ -1,12 +1,13 @@
 import axios from 'axios';
 import LargeCard from './../../components/largeCard';
+const md5 = require('md5');
 
 export default function More({data}) {
     return (
       <div className="container my-12 mx-auto px-4 md:px-12">
             <div className="flex flex-wrap -mx-1 lg:-mx-4">
-             <LargeCard movie={data}/>
-           
+            {  data&&<LargeCard movie={data}/> }
+            
            </div> 
       
       </div>
@@ -18,12 +19,17 @@ export default function More({data}) {
 
 
 export async function getStaticProps({params}){
-    console.log(params.hero);
-    const data = await axios.get(`https://superhero-search.p.rapidapi.com/api/?hero=${params.hero}`, {headers:{'X-RapidAPI-Key':'4246c48290msh0d2f1c7d0464fccp13118ajsnb84779f761be'}})
-    //console.log(data)
+  const ts = new Date().getTime();
+  const publicKey = `9d6d058c2cf219dc55339f40bac544e5`;
+  const privateKey = `f46f16dace738947640fb58aa7b7d3b73c0a8d7d`;
+
+  const hash = md5(ts+privateKey+publicKey)
+    //console.log(params.hero);
+    const {data} = await axios.get(`https://gateway.marvel.com:443/v1/public/characters/${params.hero}?ts=${ts}&apikey=${publicKey}&hash=${hash}`,)
+    console.log(data.data.results)
     return {
         props: {
-          data: data.data,
+          data: data.data.results[0],
         },
       }
 } 

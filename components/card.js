@@ -6,8 +6,8 @@ const Card = ({movie}) =>{
         <article className="overflow-hidden rounded-lg shadow-lg">
       
       <div className="max-h-96 overflow-hidden" >
-      <a href= {`/hero/${movie.slug}`}>
-      <img alt="Placeholder" className="block h-auto w-full" src={movie.images.md}/>
+      <a href= {`/hero/${movie.id}`}>
+      <img alt="Placeholder" className="block h-auto w-full" src={`${movie.thumbnail.path}.jpg`}/>
       </a>
       </div>
      
@@ -22,7 +22,7 @@ const Card = ({movie}) =>{
       </header>
       
       <p className="ml-2 leading-relaxed text-sm p-2 md:p-2">
-        {movie.work.occupation}
+        {movie.description}
         </p>
       
       </article>
